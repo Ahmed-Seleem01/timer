@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Ahmed-Seleem01/timer.git/static/css/main.6a2782ba.css",
+    "main.js": "/Ahmed-Seleem01/timer.git/static/js/main.842079d0.js",
+    "index.html": "/Ahmed-Seleem01/timer.git/index.html",
+    "main.6a2782ba.css.map": "/Ahmed-Seleem01/timer.git/static/css/main.6a2782ba.css.map",
+    "main.842079d0.js.map": "/Ahmed-Seleem01/timer.git/static/js/main.842079d0.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6a2782ba.css",
+    "static/js/main.842079d0.js"
+  ]
+}
