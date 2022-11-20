@@ -1,21 +1,29 @@
 *, html{
   box-sizing: border-box;
+  
 }
 
-#box1{
+#box{
+  font-family: arial;
+  font-weight: bold;
+  font-size: 1.1rem;
   position: relative;
   text-align: center;
-  width: 300px;
+  min-width: 20em;
+  width: 30%;
   height: auto;
   margin: 20vh auto;
   padding: 2em;
-  background-color: magenta;
+  background-color: rgba(100, 130, 160, 0.8);
+  border: 3px solid lightblue;
+  border-radius: 20px;
 }
+
 #break-label, #session-label{
-  width: 130px;
+  width: 40%;
   position: absolute;
   color: white;
-  font-size: px;
+  font-size: 105%;
   font-weight: bold;
 }
 #break-label{
@@ -26,29 +34,36 @@
 }
 #break-length, #session-length{
   display: inline-block;
-  font-size: 30px;
-  width: 30px;
+  font-size: 150%;
+  width: 20%;
 }
+
 #timer{
   border: 2px solid white;
   border-radius: 20px;
-  width: 200px;
-  height: 130px;
-  margin: 50% auto 8% auto;
+  width: 90%;
+  margin: 140px auto 8% auto;
   text-align: center;
-  font-size: 25px;
+  font-size: 2.2em;
+  font-family: arial;
 }
 
 #time-left{
   font-family: Digital;
-  font-size: 50px;
+  font-size: 2.4em;
 }
-button{
+
+.in-de{
   display: inline-block;
+  font-size: 150%;
   margin: 0 5px;
   border: none;
+  color: black;
   background-color: transparent;
-  font-size: 1.7em;
-  padding:0;
-  margin:0;
+}
+
+h1{
+  font-size: 2.5em;
+  font-weight: bold;
+  margin-bottom: 8%;
 }

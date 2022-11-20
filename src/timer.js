@@ -17,186 +17,129 @@ const ADD_TIME = "ADD_TIME";
 const addInterval= (value)=>{
   return ({
     type: ADD_INTERVALS,
-    value: value  
-  })
-}
-const addTime= (value)=>{
-  return ({
-    type: ADD_TIME  
+    value  
   })
 }
 
 //reducer
-const reducer = (state='x', action)=>{
+const reducer = (state=0, action)=>{
   switch(action.type){   
     case ADD_INTERVALS:
-      state = action.value;
-      return state;
+      return action.value;
       break;
     default: 
       return state;
   }
 }
 const store= createStore(reducer);
-console.log(store.getState());
 
 //React
 class MyClock extends React.Component{
   constructor(props){
     super(props)
+    // The local state of the component
     this.state={
       condition: true,
-      switch: 1
     }
-  this.handleDecreaseChange = this.handleDecreaseChange.bind(this);
+    this.handleDecreaseChange = this.handleDecreaseChange.bind(this);
     this.handleIncreaseChange = this.handleIncreaseChange.bind(this);
-    
     this.handleReset = this.handleReset.bind(this);
     this.handlePlay = this.handlePlay.bind(this);
-    this.handlePause = this.handlePause.bind(this);
-    this.handleZero = this.handleZero.bind(this);
+    this.addZero = this.addZero.bind(this);
       }
   
-  handleZero(time){
-    if(time < "10"){
+  //Function to add left zero digit to numbers less than ten
+  addZero(time){
+    if(time < 10){
      return "0" + time
     }
-    else{
-      return time;
-    }
+     return time;
   }
   
+  //Function to decrease the duration length
   handleDecreaseChange(e){
-    let a = e.target.id
-    let p = document.getElementById(a).parentElement.parentElement.id
-    let z = $(`#${p} span`).attr('id');
-    //console.log(z)
-    let i =  document.getElementById(z).innerText;
+    //get the parent id of the clicked button
+    console.log(e.target)
+    let parent = document.getElementById(e.target.id).parentElement.id
+    let lengthDurationId = $(`#${parent}>span`).attr('id');
+    let lengthDuration = $(`#${lengthDurationId}`).text();
     
-    if(i > 1){
-      i--;
-     console.log(i);    
-      document.getElementById(z).innerText= i;
+    if(lengthDuration > 1){
+      lengthDuration--;   
+      $(`#${lengthDurationId}`).text(lengthDuration);
+      if (lengthDurationId === "session-length"){
+        if(lengthDuration < 10){
+          $("#time-left").text( this.addZero(lengthDuration)+":00");  
+        }
+        else{
+          $("#time-left").text( lengthDuration+":00");  
+        }
+      }
     }
     
-    if (z==="session-length"){
-        if(i < 10){
-        $("#time-left").text( this.handleZero(i)+":00");  
-      }
-      else{
-          $("#time-left").text( i+":00");  
-      }
-      }
-  }
+ }
   
   handleIncreaseChange(e){
-    let a = e.target.id
-    let p = document.getElementById(a).parentElement.parentElement.id
-    let z = $(`#${p} span`).attr('id');
-    console.log(z)
-    let i =  document.getElementById(z).innerText;
-    if(i<60){
-      i++;
-      document.getElementById(z).innerText=i;
-    }
-    if (z==="session-length"){
-      if(i < 10){
-        $("#time-left").text( this.handleZero(i)+":00");  
-      }
-      else{
-          $("#time-left").text( i+":00");  
-      }
-    }
-  }
-  /*handleCheck(){
-    setInterval(()=>{
-      if($("#time-left").text() === $("#session-length").text()){
-      handlePlay($("#session-length").text())
-    }
-    else if($("#time-left").text() === $("#break-length").text()){
-      handlePlay($("#break-length").text())
-    }
-    }, 1000)
+    let parent = document.getElementById(e.target.id).parentElement.id
+    let lengthDurationId = $(`#${parent}>span`).attr('id');
+    let lengthDuration =  $(`#${lengthDurationId}`).text();
     
-  }*/
-  
+    if(lengthDuration < 60){
+      lengthDuration++;
+      $(`#${lengthDurationId}`).text(lengthDuration);
+      if (lengthDurationId === "session-length"){
+        if(lengthDuration < 10){
+          $("#time-left").text( this.addZero(lengthDuration)+":00");  
+        }
+        else{
+          $("#time-left").text( lengthDuration+":00");  
+        }
+      }
+    }
+    
+  }
   
   handlePlay(){
     
     if(this.state.condition){
+      console.log("4444")
       this.setState({
         condition: false
       })
-      $(".in-de").hide();
-      let con = false;
+      $(".in-de").attr("disabled", true);
       let switched = "session";
       let a = $("#time-left").text()
-       let c = a.match(/.$/);
-        c = Number(c[0]);
-      if(a !== "60:00"){
-        a = a.replace(/.$/, c+1);
-      }else{
-        a="59:59"
-      }
-      
- 
-    console.log(a);
-    let counter = new Date(`Jan 5, 2024 00:${a}`).getTime()+ new Date().getTime();
-    //console.log(counter);
+      let counter = new Date(`Jan 5, 3000 00:${a}`).getTime()+ new Date().getTime();
     
-    this.props.addNewInterval(setInterval( function(){
-      let now = new Date().getTime()
+      this.props.addNewInterval(setInterval( function(){
+      let now = new Date().getTime()-1000
       let diff = counter - now;
-      //console.log(diff);
       let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
       let seconds = Math.floor((diff % (1000 * 60)) / 1000);
-      if(minutes<10){
-        minutes = "0" + minutes
-      }
-      if(seconds < 10){
-        seconds = "0" + seconds
-      }
-      
-      if(con){
-        
-        $("#time-left").text(`${a}:00`);
-        con = false;
-        counter = new Date(`Jan 5, 2024 00:${a}:00`).getTime()+ new Date().getTime();
-      }else{
-        $("#time-left").text(`${minutes}:${seconds}`);
-      }
-      
-      //this.props.addNewInterval(x);
-      if(minutes === "00" && seconds === "00") {
-        //$("#time-left").text("00:00");
+      minutes < 10 ? minutes = "0" + minutes : minutes=minutes;
+      seconds < 10 ? seconds = "0" + seconds : seconds=seconds;  
+      $("#time-left").text(`${minutes}:${seconds}`);
+  
+      if($("#time-left").text() === "00:00") {   
         document.getElementById("beep").play();
-        //$("#time-left").text("0" + a +":00");
-    //clearInterval(this.props.interval);
+      
         if(switched === "session"){
           a = $("#break-length").text();
-          if (a < 10){
-            a = "0" + a
-          }
-        counter = new Date(`Jan 5, 2024 00:${a}:00`).getTime()+ new Date().getTime();
+          a < 10 ? a = "0" + a : a=a;
+          counter = new Date(`Jan 5, 2024 00:${a}:00`).getTime()+ new Date().getTime();
           $("#time-left").css("color", "red")
           $("#timer-label").text("Break")
           switched = "break"
-          con = true;
         }
-         else if(switched === "break"){
-           a = $("#session-length").text();
-            if (a < 10){
-            a = "0" + a
-          }
-           //$("#time-left").text("00:00");
-        counter = new Date(`Jan 5, 2024 00:${a}:00`).getTime()+ new Date().getTime();
-           $("#time-left").css("color", "black")
-           $("#timer-label").text("Session")
-           switched = "session"
-           con = true
+        else if(switched === "break"){
+          a = $("#session-length").text();
+          a < 10 ? a = "0" + a : a=a;
+          counter = new Date(`Jan 5, 2024 00:${a}:00`).getTime()+ new Date().getTime();
+          $("#time-left").css("color", "black");
+          $("#timer-label").text("Session");
+          switched = "session";
         }
-         
-        }
+      }
     },1000)
       )
     }
@@ -205,16 +148,10 @@ class MyClock extends React.Component{
       this.setState({
         condition: true
       })
-      $(".in-de").show();
-    }
-    
+       $(".in-de").attr("disabled", false);
+    } 
     }
   
-  handlePause(){
-    console.log(this.props.interval);
-    clearInterval(this.props.interval);
-    //this.props.setTime($("#time-left").text());
-  }
   handleReset(){
     clearInterval(this.props.interval)
     $("#break-length").text("5");
@@ -224,39 +161,38 @@ class MyClock extends React.Component{
     $("#time-left").css("color", "black")
     document.getElementById("beep").pause();
     document.getElementById("beep").currentTime = 0;
-    $(".in-de").show();
-    this.setState({
+    $(".in-de").attr("disabled", false);
+    this.setState(()=>({
         condition: true
-      })
+      }))
   }
   
   render(){
     return(
       <div>
-        <div id="box1">
+        <div id="box">
           <h1>25 + 5 Clock</h1>
           <div id="break-label">
             <p>Break Length</p>
-            <button className="in-de" onClick={this.handleDecreaseChange}><FaArrowDown className="icon" id="break-decrement"></FaArrowDown></button>
+            <FaArrowDown id="break-decrement" className="in-de" onClick={this.handleDecreaseChange}></FaArrowDown>
             <span id="break-length">5</span>
-            <button className="in-de" onClick={this.handleIncreaseChange}><FaArrowUp className="icon" id="break-increment"></FaArrowUp></button>
+            <FaArrowUp id="break-increment" className="in-de" onClick={this.handleIncreaseChange}></FaArrowUp>
             </div>
           <div id="session-label">
             <p>Session Length</p>
-            <button className="in-de" onClick={this.handleDecreaseChange}><FaArrowDown className="icon" id="session-decrement"></FaArrowDown></button>
+            <FaArrowDown id="session-decrement" className="in-de" onClick={this.handleDecreaseChange}></FaArrowDown>
             <span id="session-length">25</span>
-            <button className="in-de" onClick={this.handleIncreaseChange}><FaArrowUp className="icon" id="session-increment"></FaArrowUp></button> 
+            <FaArrowUp id="session-increment" className="in-de" onClick={this.handleIncreaseChange}></FaArrowUp> 
           </div>
           <div id="timer">
             <div id="timer-label">Session</div>
             <div id="time-left">25:00</div>
           </div>
           <div>
-            <button id="start_stop"  onClick={this.handlePlay}>
-              <audio id="beep" preload="auto" src="https://raw.githubusercontent.com/freeCodeCamp/cdn/master/build/testable-projects-fcc/audio/BeepSound.wav"></audio>
-              <FaPlay className="icon"></FaPlay></button>
+            <FaPlay id="start_stop"  onClick={this.handlePlay} className="in-de"></FaPlay>
+            <audio id="beep" preload="auto" src="https://raw.githubusercontent.com/freeCodeCamp/cdn/master/build/testable-projects-fcc/audio/BeepSound.wav"></audio>
             {/*<button onClick={this.handlePause}><i class="fa fa-pause fa-2x"></i></button>*/}
-            <button id="reset" onClick={this.handleReset}><FaRedo className="icon"></FaRedo></button>
+            <FaRedo id="reset" onClick={this.handleReset} className="in-de"></FaRedo>
           </div>
         </div>
       </div>
@@ -264,9 +200,6 @@ class MyClock extends React.Component{
   }
 }
 //React-Redux
-//const connect= ReactRedux.connect;
-//const Provider = ReactRedux.Provider;
-
 function mapStateToProps(state){
   return({
     interval: state
@@ -281,7 +214,6 @@ function mapDispatchToProps(dispatch){
 
   })
 }
-
 
 const Container = connect(mapStateToProps, mapDispatchToProps)(MyClock);
 
