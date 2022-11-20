@@ -174,15 +174,15 @@ class MyClock extends React.Component{
           <h1>25 + 5 Clock</h1>
           <div id="break-label">
             <p>Break Length</p>
-            <FaArrowDown id="break-decrement" className="in-de" onClick={this.handleDecreaseChange}></FaArrowDown>
+            <button id="break-decrement" className="in-de" onClick={this.handleDecreaseChange}><FaArrowDown/></button>
             <span id="break-length">5</span>
-            <FaArrowUp id="break-increment" className="in-de" onClick={this.handleIncreaseChange}></FaArrowUp>
+            <button id="break-increment" className="in-de" onClick={this.handleIncreaseChange}><FaArrowUp/></button>
             </div>
           <div id="session-label">
             <p>Session Length</p>
-            <FaArrowDown id="session-decrement" className="in-de" onClick={this.handleDecreaseChange}></FaArrowDown>
+            <button id="session-decrement" className="in-de" onClick={this.handleDecreaseChange}><FaArrowDown/></button>
             <span id="session-length">25</span>
-            <FaArrowUp id="session-increment" className="in-de" onClick={this.handleIncreaseChange}></FaArrowUp> 
+            <button id="session-increment" className="in-de" onClick={this.handleIncreaseChange}><FaArrowUp/> </button>
           </div>
           <div id="timer">
             <div id="timer-label">Session</div>
