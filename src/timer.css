@@ -1,9 +1,7 @@
-*, html{
+*, html {
   box-sizing: border-box;
-  
 }
-
-#box{
+* #box, html #box {
   font-family: arial;
   font-weight: bold;
   font-size: 1.1rem;
@@ -18,27 +16,27 @@
   border: 3px solid lightblue;
   border-radius: 20px;
 }
-
-#break-label, #session-label{
+* #box #break-label, * #box #session-label, html #box #break-label, html #box #session-label {
   width: 40%;
   position: absolute;
   color: white;
   font-size: 105%;
   font-weight: bold;
+  padding: 0;
+  margin: 0;
 }
-#break-label{
-  left: 20px
+* #box #break-label, html #box #break-label {
+  left: 20px;
 }
-#session-label{
+* #box #session-label, html #box #session-label {
   right: 20px;
 }
-#break-length, #session-length{
+* #box #break-length, * #box #session-length, html #box #break-length, html #box #session-length {
   display: inline-block;
-  font-size: 150%;
+  font-size: 2em;
   width: 20%;
 }
-
-#timer{
+* #box #timer, html #box #timer {
   border: 2px solid white;
   border-radius: 20px;
   width: 90%;
@@ -47,23 +45,22 @@
   font-size: 2.2em;
   font-family: arial;
 }
-
-#time-left{
+* #box #time-left, html #box #time-left {
   font-family: Digital;
   font-size: 2.4em;
 }
-
-.in-de{
-  display: inline-block;
-  font-size: 150%;
-  margin: 0 5px;
-  border: none;
+* #box .in-de, #box #box #start_stop, #box #box #reset, html #box #start_stop, html #box #reset, html #box .in-de {
+  width: 2em;
+  height: 2em;
+  margin: 0 1% 0 5%;
   color: black;
   background-color: transparent;
+  cursor: pointer;
 }
-
-h1{
+* #box h1, html #box h1 {
   font-size: 2.5em;
   font-weight: bold;
   margin-bottom: 8%;
 }
+
+/*# sourceMappingURL=timer.css.map */

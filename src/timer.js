@@ -106,8 +106,8 @@ class MyClock extends React.Component{
       this.setState({
         condition: false
       })
-      $(".in-de").attr("disabled", true);
-      let switched = "session";
+      $(".in-de").hide();
+      let switched = "session-length";
       let a = $("#time-left").text()
       let counter = new Date(`Jan 5, 3000 00:${a}`).getTime()+ new Date().getTime();
     
@@ -120,24 +120,25 @@ class MyClock extends React.Component{
       seconds < 10 ? seconds = "0" + seconds : seconds=seconds;  
       $("#time-left").text(`${minutes}:${seconds}`);
   
-      if($("#time-left").text() === "00:00") {   
+      if($("#time-left").text() === "00:00" || minutes > $(`#${switched}`).text()) {   
+        $("#time-left").text("00:00")
         document.getElementById("beep").play();
       
-        if(switched === "session"){
+        if(switched === "session-length"){
           a = $("#break-length").text();
           a < 10 ? a = "0" + a : a=a;
           counter = new Date(`Jan 5, 2024 00:${a}:00`).getTime()+ new Date().getTime();
           $("#time-left").css("color", "red")
           $("#timer-label").text("Break")
-          switched = "break"
+          switched = "break-length"
         }
-        else if(switched === "break"){
+        else if(switched === "break-length"){
           a = $("#session-length").text();
           a < 10 ? a = "0" + a : a=a;
           counter = new Date(`Jan 5, 2024 00:${a}:00`).getTime()+ new Date().getTime();
           $("#time-left").css("color", "black");
           $("#timer-label").text("Session");
-          switched = "session";
+          switched = "session-length";
         }
       }
     },1000)
@@ -148,7 +149,7 @@ class MyClock extends React.Component{
       this.setState({
         condition: true
       })
-       $(".in-de").attr("disabled", false);
+       $(".in-de").show();
     } 
     }
   
@@ -161,7 +162,7 @@ class MyClock extends React.Component{
     $("#time-left").css("color", "black")
     document.getElementById("beep").pause();
     document.getElementById("beep").currentTime = 0;
-    $(".in-de").attr("disabled", false);
+    $(".in-de").show();
     this.setState(()=>({
         condition: true
       }))
@@ -174,25 +175,25 @@ class MyClock extends React.Component{
           <h1>25 + 5 Clock</h1>
           <div id="break-label">
             <p>Break Length</p>
-            <button id="break-decrement" className="in-de" onClick={this.handleDecreaseChange}><FaArrowDown/></button>
+            <FaArrowDown id="break-decrement" className="in-de" onClick={this.handleDecreaseChange}></FaArrowDown>
             <span id="break-length">5</span>
-            <button id="break-increment" className="in-de" onClick={this.handleIncreaseChange}><FaArrowUp/></button>
+            <FaArrowUp id="break-increment" className="in-de" onClick={this.handleIncreaseChange}></FaArrowUp>
             </div>
           <div id="session-label">
             <p>Session Length</p>
-            <button id="session-decrement" className="in-de" onClick={this.handleDecreaseChange}><FaArrowDown/></button>
+            <FaArrowDown id="session-decrement" className="in-de" onClick={this.handleDecreaseChange}></FaArrowDown>
             <span id="session-length">25</span>
-            <button id="session-increment" className="in-de" onClick={this.handleIncreaseChange}><FaArrowUp/> </button>
+            <FaArrowUp id="session-increment" className="in-de" onClick={this.handleIncreaseChange}></FaArrowUp>
           </div>
           <div id="timer">
             <div id="timer-label">Session</div>
             <div id="time-left">25:00</div>
           </div>
           <div>
-            <FaPlay id="start_stop"  onClick={this.handlePlay} className="in-de"></FaPlay>
+            <FaPlay id="start_stop"  onClick={this.handlePlay}></FaPlay>
             <audio id="beep" preload="auto" src="https://raw.githubusercontent.com/freeCodeCamp/cdn/master/build/testable-projects-fcc/audio/BeepSound.wav"></audio>
             {/*<button onClick={this.handlePause}><i class="fa fa-pause fa-2x"></i></button>*/}
-            <FaRedo id="reset" onClick={this.handleReset} className="in-de"></FaRedo>
+            <FaRedo id="reset" onClick={this.handleReset}></FaRedo>
           </div>
         </div>
       </div>
